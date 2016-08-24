@@ -1,5 +1,5 @@
 # Change these
-server '162.243.68.13', roles: [:web, :app, :db], primary: true
+server '162.243.68.13', port: 80, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:HoangVanTrinh92/appname.git'
 set :application,     'appname'
