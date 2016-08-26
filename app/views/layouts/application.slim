@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title
+      = t "title.project_name"
+    meta content="DdBR0S9NTIUKUNiCoUG4A79CvKm90osEqxGDmo0jiG4" name="google-site-verification"
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "jquery.min.js"
+    = javascript_include_tag "jquery.easing.min.js"
+    = javascript_include_tag "jquery.lavalamp.min.js"
+    = javascript_include_tag "image_fade.js"
+    = csrf_meta_tags
+  body
+    = yield
