@@ -1,0 +1,103 @@
+= stylesheet_link_tag "operator/redeem_product_table"
+= javascript_include_tag "operator/redeem_product_table"
+= stylesheet_link_tag "base/hover"
+.row
+  .col-xs-12
+    .box
+      .box-header
+        h3.box-title = t "redeem_product.list_product"
+        span.pull-right
+          = t "title.choose_language"
+          span style="margin-right: 15px"
+            - M::Country.all.each do |country|
+              span.flag_country class="#{country.name}"
+                = image_tag country.flag_icon
+          = link_to new_operator_redeem_product_path, remote: true do
+            i.fa.fa-plus-square style="margin-right: 3px;"
+            = t "button.create_product"
+      .box-body
+        - if redeem_products.count == 0
+          .dataTables_empty= t "messages.no_data"
+        - else
+          table#table-redeem-product.table.table-bordered.table-striped
+            thead
+              tr
+                th style="width: 70px" = sort_link @search, :m_country_id, t("redeem_product_attributes.country")
+                th style="width: 70px" = t "redeem_product_attributes.image"
+                th style="width: 180px" = sort_link @search, :name, t("redeem_product_attributes.name")
+                th style="width: 80px" = sort_link @search, :started_date, t("redeem_product_attributes.started_date")
+                th style="width: 80px" = sort_link @search, :finished_date, t("redeem_product_attributes.finished_date")
+                th style="width: 80px" = sort_link @search, :required_point, t("redeem_product_attributes.required_point")
+                th style="width: 50px" = t "redeem_product_attributes.owner"
+                th = t "redeem_product_attributes.description"
+                th = t "redeem_product_attributes.valid_through"
+                th = t "redeem_product_attributes.exchange_counter"
+                th style="width: 11%" = t "redeem_product_attributes.status"
+                th style="width: 11%" = t "action"
+            tbody
+              - redeem_products.each do |product|
+                tr
+                  td= product.country.try :name
+                  td= image_tag get_image_url(product, :image), class: "img-circle", style: "width: 50px; height: 50px"
+                  td= product.name
+                  td= raw filter_content product.started_date.try(:strftime, t("time_format.original"))
+                  td= raw filter_content product.finished_date.try(:strftime, t("time_format.original"))
+                  td= product.required_point
+                  td= product.operator.try :name
+                  td.obj-hover-show
+                    = link_to operator_redeem_product_edit_description_path(product), remote: true do
+                      button.btn.btn-info.btn-hover
+                        i.fa.fa-pencil-square-o
+                    - M::Country.all.each do |c|
+                      .description-content.ellipsis.ell_max_70 class="#{c.name}" hidden=""
+                        = raw filter_content product.description["#{c.id}"]
+                  td
+                    - M::Country.all.each do |c|
+                      .valid_through-content.ellipsis.ell_max_70 class="#{c.name}" hidden=""
+                        = raw filter_content product.valid_through["#{c.id}"]
+                  td= product.exchange_counter
+                  td
+                    .pull-left = link_to operator_redeem_product_edit_csv_path(product), remote: true do
+                      labe.btn style="width: 100%; margin-right: 5px" class="#{get_class_color_status_product product.remaining_codes}"
+                        = get_status_product product.active
+                        = " "
+                        span.badge
+                          = product.remaining_codes
+                          = "/"
+                          = product.total_codes
+                    - if Rails.env.development?
+                      .pull-right
+                        - if product.remaining_codes > 0
+                          = link_to operator_redeem_product_remove_csv_path(product), method: :put, data: {confirm: t("messages.you_sure")}, class: "btn btn-default" do
+                            i.fa.fa-trash
+                  td.action
+                    .row style="display:inline-block"
+                      .col-md-12
+                        = link_to operator_redeem_product_path(product), class: "btn pull-left" do
+                          i.fa.fa-eye
+                          = " "
+                          = t "button.product_show"
+                        = link_to edit_operator_redeem_product_path(product), remote: true, class: "btn pull-left" do
+                          i.fa.fa-pencil-square-o
+                          = " "
+                          = t "button.product_settings"
+                        = link_to operator_redeem_product_path(product), method: :delete, data: {confirm: t("messages.you_sure")}, class: "btn pull-left" do
+                          i.fa.fa-trash-o
+                          = " "
+                          = t "button.delete_product"
+            tfoot
+              tr
+                th = t "redeem_product_attributes.country"
+                th = t "redeem_product_attributes.image"
+                th = t "redeem_product_attributes.name"
+                th = t "redeem_product_attributes.started_date"
+                th = t "redeem_product_attributes.finished_date"
+                th = t "redeem_product_attributes.required_point"
+                th = t "redeem_product_attributes.owner"
+                th = t "redeem_product_attributes.description"
+                th = t "redeem_product_attributes.valid_through"
+                th = t "redeem_product_attributes.exchange_counter"
+                th = t "redeem_product_attributes.status"
+                th style="min-width: 161px" = t "action"
+          = paginate redeem_products, theme: "twitter-bootstrap-3"
+= render "operator/redeem_products/redeem_product_modal", object: RedeemProduct.new, title: t("title.add_redeem_product"), submit: t("button.add")

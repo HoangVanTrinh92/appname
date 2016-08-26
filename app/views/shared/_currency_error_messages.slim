@@ -1,0 +1,8 @@
+- if object.errors.any?
+  #error_explanation style=("max-width: 500px; width: 50%; margin: 0 auto;")
+    .alert.alert-danger
+      = t "messsages.alert.object_errors", count: object.errors.count
+    ul
+      - object.errors.values.each do |msg|
+        li style="color: red"
+          = msg.to_sentence

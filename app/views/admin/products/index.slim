@@ -1,0 +1,18 @@
+- provide :title, t("title.product")
+section.content-header
+  h1 = t "title.product"
+  ol.breadcrumb
+    li
+      a href="#"
+        i.fa.fa-list
+        = t "title.product"
+section.content
+  .row
+    .col-md-12
+      = render "shared/flash", flash: flash
+      = link_to "Create Product", new_admin_product_path
+      = link_to "Logout", destroy_user_session_path, method: :delete
+    / .col-md-12
+    /   = render "operator/products/search_form", search: @search
+    / .col-md-12
+    /   = render "operator/products/product_table", products: @products

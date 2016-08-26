@@ -1,0 +1,80 @@
+= stylesheet_link_tag "operator/redeem-product-modal"
+= javascript_include_tag "operator/redeem-product-modal"
+= javascript_include_tag "base/image"
+= javascript_include_tag "base/time"
+= javascript_include_tag "base/file"
+
+#redeem_product_modal.modal.fade role="dialog"
+  .modal-dialog.modal-lg
+    = form_for [:operator, object], remote: true do |product|
+      = product.hidden_field :operator_id, value: current_operator.id
+      = hidden_field_tag :authenticity_token, form_authenticity_token
+      - M::Country.all.each do |c|
+        = text_area(:description, c.id, class: "form-control", value: product.object.description[c.id.to_s], style: "display: none")
+      .modal-content
+        .modal-header
+          button.close data-dismiss="modal" type="button" &times;
+          h4.modal-title.with-border
+            = title
+        .modal-body
+          .row
+            .col-md-12
+              .form-group
+                = product.label :name
+                = product.text_field :name, class: "form-control", required: true
+          .row style="margin-bottom: 10px"
+            .col-md-3.col-md-offset-1
+              label for="redeem_product_image"
+                img.img-responsive.img-rounded style="width: 130px; height: 130px; border: 1px solid #eee; margin: 0 0 10px 20px"
+                = product.file_field :image, class: "img_preview"
+            .col-md-8
+              form role="form"
+                .form-group
+                  = product.label :country
+                  = product.select :m_country_id, CurrencyUnit.includes(:m_country).collect{|c| [c.m_country.name, c.m_country_id]}, {}, class: "form-control"
+                  .currency-unit style="display: none"
+                    - CurrencyUnit.all.each do |currency|
+                      p class="currency-#{currency.m_country.name}"= currency.rate_point_money
+                  - if CurrencyUnit.count == 0
+                    p style="color: red"= t "messages.currency_unit_empty"
+                .form-group
+                  .col-md-6
+                    = product.label :required_money
+                  .col-md-6
+                    = product.label :required_point
+                .form-group
+                  .col-md-5
+                    = product.text_field :required_money, class: "form-control", required: true, min: 0, placeholder: 0
+                  .col-md-1
+                    - M::Country.all.each do |country|
+                      p style="display: none" class="curr-unit curr-#{country.name}"= country.currency
+                  .col-md-5.require-point
+                    = product.text_field :required_point, class: "form-control", required: true, min: 0, readonly: true,
+                      placeholder: 0
+                  .col-md-1
+                    = t "title.point"
+          .row
+            .col-md-12
+              = product.label :valid_period
+              .input-group.input-daterange
+                = product.text_field :started_date, class: "form-control", date: true, value: product.object.started_date.try(:strftime, t("time_format.original"))
+                span.input-group-addon To
+                = product.text_field :finished_date, class: "form-control", date: true, value: product.object.finished_date.try(:strftime, t("time_format.original"))
+          br
+          .row
+            .col-md-12
+              .form-group
+                = product.label :exchange_counter
+                = product.text_field :exchange_counter, class: "form-control"
+          = product.fields_for :valid_through do |valid_through|
+            - M::Country.all.each do |c|
+              .row.valid_through
+                .col-md-12
+                  .form-group
+                    = valid_through.label "valid_through #{c.name}"
+                    = text_area(:valid_through, c.id, placeholder: t("placeholder.redeem_product.valid_through"),
+                      class: "form-control ckeditor", value: product.object.valid_through[c.id.to_s])
+        .modal-footer
+            = product.submit submit, class: "btn btn-info"
+            button.btn.btn-default data-dismiss="modal" type="button"
+              = t "button.cancel"

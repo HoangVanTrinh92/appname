@@ -5,11 +5,14 @@ html
       = t "title.project_name"
     meta content="DdBR0S9NTIUKUNiCoUG4A79CvKm90osEqxGDmo0jiG4" name="google-site-verification"
     = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.css"
     = javascript_include_tag "application"
     = javascript_include_tag "jquery.min.js"
     = javascript_include_tag "jquery.easing.min.js"
     = javascript_include_tag "jquery.lavalamp.min.js"
     = javascript_include_tag "image_fade.js"
+    = javascript_include_tag "https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"
     = csrf_meta_tags
   body
+    / - binding.pry
     = yield

@@ -1,0 +1,27 @@
+- provide :title, t("title.show_redeem_product")
+- content_for :assets
+  = javascript_include_tag "base/tab"
+section.content-header
+  h1 = @redeem_product.name
+  ol.breadcrumb
+    li
+      a href="#"
+        i.fa.fa-gamepad
+        = t "title.show_redeem_product"
+    li.active = t "title.show_redeem_product"
+section.content
+  .row
+    .col-md-12
+      = render "shared/flash", flash: flash
+    .col-md-12
+      span#select_tab data-tab="#{params[:tab]}"
+      .nav-tabs-custom
+        ul.nav.nav-tabs
+          li
+            = link_to "All Codes", operator_redeem_product_path(@redeem_product)
+          li
+            = link_to "Available Codes", operator_redeem_product_path(@redeem_product, sort: :available, tab: "1")
+          li
+            = link_to "Exchanged Codes", operator_redeem_product_path(@redeem_product, sort: :exchanged, tab: "2")
+        .tab-content
+          = render "operator/redeem_products/serial_table", codes: @codes, codes_number: @codes_number, total_codes_number: @total_codes_number, redeem_product: @redeem_product

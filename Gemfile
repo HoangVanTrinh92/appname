@@ -30,10 +30,19 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'slim'
+gem 'devise'
+gem 'ransack'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
+gem 'cancancan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'factory_girl_rails'
+  gem 'guard-rspec', require: false
+  gem 'faker'
+  gem 'pry'
 end
 
 group :development do
