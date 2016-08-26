@@ -1,0 +1,4 @@
+$(".modal").remove();
+$("section.content").append(
+  "<%= j render "operator/redeem_products/redeem_product_modal", object: @redeem_product, title: t("title.edit_redeem_product"), submit: t("button.update") %>");
+$(".modal").modal("show");

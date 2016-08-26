@@ -1,0 +1,57 @@
+- content_for :assets
+  = javascript_include_tag "base/time"
+  = javascript_include_tag "base/select"
+.row
+  .col-xs-12
+    .box
+      .box-header
+        .box-title
+          h4
+            = t "title.total"
+            = t " "
+            span.badge
+              = codes_number
+        span.pull-right
+          = link_to operator_redeem_product_path(@redeem_product, format: "csv", sort: @type) do
+            button.btn.btn-success= t "button.export_csv"
+      .box-body
+        - if codes.count == 0
+          = t "messages.no_data"
+        - else
+          table#table-redeem-product.table.table-bordered.table-striped
+            thead
+              tr
+                th = t "redeem_product_attributes.product"
+                th = t "redeem_product_attributes.point"
+                th = t "redeem_product_attributes.card_number"
+                th = t "redeem_product_attributes.card_name"
+                th = t "redeem_product_attributes.serial_number"
+                th = t "redeem_product_attributes.uploaded_at"
+                th = t "redeem_product_attributes.status"
+                th = t "redeem_product_attributes.user_exchange"
+                th = t "redeem_product_attributes.exchange_at"
+            tbody
+              - codes.each.with_index(1) do |code, i|
+                - record_code = redeem_product.redemp_record(code)
+                tr
+                  td= redeem_product.name
+                  td= redeem_product.required_point.to_i
+                  td= code[0]
+                  td= code[1][0].force_encoding("UTF-8")
+                  td= code[1][1]
+                  td= code[1][2]
+                  td= record_code.present? ? "exchanged" : "available"
+                  td= get_user_exchange_name record_code
+                  td= record_code.try(:created_at)
+            tfoot
+              tr
+                th = t "redeem_product_attributes.product"
+                th = t "redeem_product_attributes.point"
+                th = t "redeem_product_attributes.card_number"
+                th = t "redeem_product_attributes.card_name"
+                th = t "redeem_product_attributes.serial_number"
+                th = t "redeem_product_attributes.uploaded_at"
+                th = t "redeem_product_attributes.status"
+                th = t "redeem_product_attributes.user_exchange"
+                th = t "redeem_product_attributes.exchange_at"
+          = paginate codes, theme: 'twitter-bootstrap-3'

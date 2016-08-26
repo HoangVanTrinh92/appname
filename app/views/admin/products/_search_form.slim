@@ -1,0 +1,37 @@
+- content_for :assets
+  = javascript_include_tag "base/time"
+  = javascript_include_tag "base/select"
+  = javascript_include_tag "base/reset"
+.box
+  .box-header.with-border
+    h3.box-title = t "search_form"
+  .box-body
+    = search_form_for search, url: "#{request.fullpath}" do |f|
+      .row.col-md-12
+        .row.col-md-12
+          .form-group
+            label= t "view.basic.show_limit"
+            = select_tag :limit, options_from_collection_for_select(Settings.show_limit, :second, :second, selected: params[:limit] || Settings.show_limit.limit),
+              id: "show-limit", class: "form-control", style: "width: 75px"
+        .row
+          .col-md-6
+            .form-group
+              = f.label :country, t("redeem_product_attributes.country")
+              = f.select :m_country_id_in, options_from_collection_for_select(M::Country.all, :id, :name,
+                selected: params[:q] ? params[:q].try(:[], :m_country_id_in) : ""), {},
+                multiple: true, style: "width: 100%", class: "form-control select2"
+          .col-md-6
+            .form-group
+              = f.label :name, t("redeem_product_attributes.name")
+              = f.select :name_in, options_from_collection_for_select(RedeemProduct.all, :name, :name, selected: params[:q] ? params[:q].try(:[], :redeem_product_name_in) : ""), {}, placeholder: "Select a State", multiple: true, style: "width: 100%", class: "form-control select2"
+        .row.col-md-12.form-group
+          label= t "point_between"
+          .input-group
+            = f.text_field :required_point_gteq, value: params[:q] ? params[:q].try(:[], :required_point_gteq) : "", type: "number", min: 0, class: "form-control"
+            span.input-group-addon To
+            = f.text_field :required_point_lteq, value: params[:q] ? params[:q].try(:[], :required_point_lteq) : "", type: "number", min: 0, class: "form-control"
+      .row.col-md-12.actions
+        = f.submit t("button.search"), class: "btn btn-info", style: "margin-right: 10px"
+        = link_to t("button.view_all"), {}, class: "btn btn-warning reset-button"
+
+
