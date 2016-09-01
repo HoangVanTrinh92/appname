@@ -21,10 +21,8 @@ class Admin::ItemsController < ApplicationController
     respond_to do |format|
       if @admin_item.save
         format.html { redirect_to @admin_item, notice: 'Item was successfully created.' }
-        # format.json { render :show, status: :created, location: @admin_item }
       else
         format.html { render :new }
-        # format.json { render json: @admin_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -33,10 +31,8 @@ class Admin::ItemsController < ApplicationController
     respond_to do |format|
       if @admin_item.update(admin_item_params)
         format.html { redirect_to @admin_item, notice: 'Item was successfully updated.' }
-        # format.json { render :show, status: :ok, location: @admin_item }
       else
         format.html { render :edit }
-        # format.json { render json: @admin_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -45,7 +41,6 @@ class Admin::ItemsController < ApplicationController
     @admin_item.destroy
     respond_to do |format|
       format.html { redirect_to admin_items_url, notice: 'Item was successfully destroyed.' }
-      # format.json { head :no_content }
     end
   end
 
@@ -55,6 +50,6 @@ class Admin::ItemsController < ApplicationController
     end
 
     def admin_item_params
-      params.require(:admin_item).permit(:name, :cost, :description)
+      params.require(:admin_item).permit Item::ATTRIBUTES_PARAMS
     end
 end
