@@ -13,3 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require image_fade
+//= require bootstrap-sprockets
+//= require turbolinks
+//= require_tree .

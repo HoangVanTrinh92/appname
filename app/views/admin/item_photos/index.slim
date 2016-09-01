@@ -1,0 +1,18 @@
+p#notice= notice
+h1 Admin Item Photos
+table
+  thead
+    tr
+      th Item
+      th Link
+      th colspan="3"
+  tbody
+    - @admin_item_photos.each do |admin_item_photo|
+      tr
+        td= admin_item_photo.item_id
+        td= admin_item_photo.link
+        td= link_to 'Show', admin_item_photo
+        td= link_to 'Edit', edit_admin_item_photo_path(admin_item_photo)
+        / td= link_to 'Destroy', admin_item_photo_path, method: :delete, data:   confirm: 'Are you sure?'
+br/
+= link_to 'New Admin Item Photo', new_admin_item_photo_path

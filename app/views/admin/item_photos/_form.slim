@@ -1,0 +1,8 @@
+= image_tag @admin_item_photo.link, style: "width: 100px; height: 100px"
+= form_for(@admin_item_photo) do |f|
+  .field
+    = f.label :link
+    br/
+    = f.file_field :link
+  .actions
+    = f.submit

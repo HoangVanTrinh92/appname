@@ -35,6 +35,9 @@ gem 'ransack'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'cancancan'
+gem 'carrierwave'
+gem 'nested_form'
+gem 'bootstrap-sass', '~> 3.3.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

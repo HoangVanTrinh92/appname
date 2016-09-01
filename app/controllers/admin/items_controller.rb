@@ -6,10 +6,12 @@ class Admin::ItemsController < ApplicationController
   end
 
   def show
+    @item_photos = @admin_item.item_photos.all
   end
 
   def new
     @admin_item = Admin::Item.new
+    @item_photo = @admin_item.item_photos.build
   end
 
   def edit
@@ -20,6 +22,9 @@ class Admin::ItemsController < ApplicationController
 
     respond_to do |format|
       if @admin_item.save
+        params[:item_photos]['link'].each do |a|
+          @item_photo = @admin_item.item_photos.create!(:link => a)
+        end
         format.html { redirect_to @admin_item, notice: 'Item was successfully created.' }
       else
         format.html { render :new }
@@ -30,6 +35,9 @@ class Admin::ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @admin_item.update(admin_item_params)
+        params[:item_photos]['link'].each do |a|
+          @item_photo = @admin_item.item_photos.create!(:link => a)
+        end
         format.html { redirect_to @admin_item, notice: 'Item was successfully updated.' }
       else
         format.html { render :edit }
@@ -50,6 +58,6 @@ class Admin::ItemsController < ApplicationController
     end
 
     def admin_item_params
-      params.require(:admin_item).permit Item::ATTRIBUTES_PARAMS
+      params.require(:admin_item).permit Admin::Item::ATTRIBUTES_PARAMS
     end
 end
