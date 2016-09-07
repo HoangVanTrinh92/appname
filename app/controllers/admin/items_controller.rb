@@ -50,6 +50,6 @@ class Admin::ItemsController < ApplicationController
     end
 
     def admin_item_params
-      params.require(:admin_item).permit Item::ATTRIBUTES_PARAMS
+      params.require(:admin_item).permit Admin::Item::ATTRIBUTES_PARAMS
     end
 end
