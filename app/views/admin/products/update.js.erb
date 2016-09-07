@@ -1,9 +1,0 @@
-<% if @redeem_product.errors.any? %>
-  $(".alert:visible").remove()
-  $("#error_explanation:visible").remove()
-  $(".modal .modal-body").prepend(
-    "<%= j render "shared/error_messages", object: @redeem_product %>")
-<% else %>
-  $(".modal:visible").modal("hide");
-  location.reload();
-<% end %>
