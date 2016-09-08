@@ -11,6 +11,7 @@ html
     = javascript_include_tag "jquery.easing.min.js"
     = javascript_include_tag "jquery.lavalamp.min.js"
     = javascript_include_tag "image_fade.js"
+    = javascript_include_tag "modernizr-1.5.min.js"
     = javascript_include_tag "https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"
     = csrf_meta_tags
   body
@@ -25,17 +26,17 @@ html
             h1
               = link_to "CSS3", root_path
           nav
-            ul#lava_menu.lavaLampWithImage
-              li.current
-                a href="index.html"  Trang chủ
+            ul#lava_menu.lavaLampWithImage.menu
               li
-                a href="examples.html"  examples
+                = link_to "Trang chủ", root_path
               li
-                a href="page.html"  a page
+                = link_to "Sản phẩm", admin_items_path
               li
-                a href="another_page.html"  another page
+                a href="#"  a page
               li
-                a href="contact.php"  contact
+                a href="#"  another page
+              li
+                a href="#"  contact
         / .slideshow
         /   ul.slideshow
         /     li.show
@@ -44,10 +45,11 @@ html
         /       = image_tag("2.jpg", alt: "hom nay toi di hoc")
         /     li
         /       = image_tag("3.jpg", alt: "khong co gi qui hon doc lap tu do")
-        /       / = link_to image_tag("image.png", alt: "Image Description", class: "css"), root_path
+              / = link_to image_tag("image.png", alt: "Image Description", class: "css"), root_path
 
       #site_content
-        = yield
+        #content
+          = yield
         #sidebar_container
           .sidebar
             h3 Latest News
@@ -68,7 +70,6 @@ html
                 a href="#"  And Another
               li
                 a href="#"  Last One
-        #content
       footer
         p
           a href="index.html"  home
