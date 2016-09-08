@@ -6,10 +6,12 @@ class Admin::ItemsController < ApplicationController
   end
 
   def show
+    @admin_item_attachments = @admin_item.item_attachments.all
   end
 
   def new
     @admin_item = Admin::Item.new
+    @admin_item_attachment = @admin_item.item_attachments.build
   end
 
   def edit
@@ -20,6 +22,11 @@ class Admin::ItemsController < ApplicationController
 
     respond_to do |format|
       if @admin_item.save
+        if params[:item_attachments].present?
+          params[:item_attachments]['avatar'].each do |a|
+            @admin_item_attachment = @admin_item.item_attachments.create!(avatar: a)
+          end
+        end
         format.html { redirect_to @admin_item, notice: 'Item was successfully created.' }
       else
         format.html { render :new }
@@ -30,6 +37,9 @@ class Admin::ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @admin_item.update(admin_item_params)
+        params[:item_attachments]['avatar'].each do |a|
+          @admin_item_attachment = @admin_item.item_attachments.create!(avatar: a)
+        end
         format.html { redirect_to @admin_item, notice: 'Item was successfully updated.' }
       else
         format.html { render :edit }

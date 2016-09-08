@@ -8,9 +8,9 @@ p
 p
   strong Description:
   = @admin_item.description
-- @item_photos.each do |p|
-  = image_tag p.link_url, style: "width: 100px; height: 100px"
-  = link_to "Edit photos", edit_admin_item_photo_path(p)
+- @admin_item_attachments.each do |p|
+  = image_tag p.avatar_url, style: "width: 100px; height: 100px"
+  = link_to "Remove", admin_item_attachment_path(p), method: :delete
 = link_to 'Edit', edit_admin_item_path(@admin_item)
 | \
 = link_to 'Back', admin_items_path
