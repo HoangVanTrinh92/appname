@@ -1,0 +1,27 @@
+h1 Your Cart
+
+- if @cart.empty?
+  p Your cart is currently empty
+  = link_to "Go to Shop", root_path
+- else
+  = link_to 'Empty Your Cart', cart_clear_path
+br
+br
+
+- total = 0
+ul
+  - @cart.each do | id, quantity |
+    - item = Admin::Item.find_by_id(id)
+    li
+      = link_to item.name, item
+      p = item.description
+      span Cost:
+      = item.cost
+      p
+        span Quantity:
+        = quantity
+    - total += quantity * item.cost
+p
+  strong
+    = total
+p
