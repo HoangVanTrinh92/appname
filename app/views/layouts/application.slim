@@ -18,7 +18,14 @@ html
     title CSS3_split2
     meta content=("text/html; charset=UTF-8") http-equiv="content-type" /
     script src="js/modernizr-1.5.min.js" type="text/javascript"
-    = link_to "Logout", destroy_user_session_path, method: :delete
+    - if user_signed_in?
+      = t "hello "
+      span style="color: red"= current_user.email
+      = t " "
+      = link_to "Sign out", destroy_user_session_path, method: :delete
+    - else
+      = link_to "Sign in ", new_user_session_path
+      = link_to "Sign up", new_user_registration_path
     #main
       #top_container
         header
@@ -28,7 +35,7 @@ html
           nav
             ul#lava_menu.lavaLampWithImage
               li.current
-                a href="index.html"  Trang chủ
+                = link_to "Trang chủ", root_path
               li
                 a href="examples.html"  examples
               li
