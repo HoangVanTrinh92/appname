@@ -1,0 +1,4 @@
+$(".modal").remove()
+$("section.content").append(
+  "<%= j render "categories/category_modal", object: @category, title: t("title.add_category"), submit: t("button.add") %>")
+$(".modal").modal("show")

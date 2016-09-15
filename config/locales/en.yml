@@ -23,3 +23,6 @@ en:
   hello: "Hello world"
   title:
     project_name: "Pro App"
+    continue_shopping: "Continue Shopping"
+  message:
+    thank_for_order: "Thanks you for ordered, we will contact to you!"

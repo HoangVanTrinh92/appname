@@ -1,0 +1,9 @@
+<% if @category.errors.any? %>
+  $(".alert:visible").remove()
+  $("#error_explanation:visible").remove()
+  $(".modal:visible .modal-body").prepend(
+    "<%= j render "shared/error_messages", object: @category %>")
+<% else %>
+  $(".modal:visible").modal("hide");
+  location.reload();
+<% end %>

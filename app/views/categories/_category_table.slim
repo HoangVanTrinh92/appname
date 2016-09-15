@@ -1,0 +1,36 @@
+.row#category-table
+  .col-xs-12
+    .box
+      .box-header
+        h3.box-title = t "title.list_category"
+        span.pull-right
+          = link_to new_category_path, remote: true do
+            i.fa.fa-plus-square style="margin-right: 3px;"
+            = t "button.add_category"
+      .box-body
+        - if categories.count == 0
+          .dataTables_empty= t "messages.no_data"
+        - else
+          table#table-game.table.table-bordered.table-striped
+            thead
+              tr
+                th
+                  = t "category_attributes.name"
+
+            tbody
+              - categories.each do |category|
+                tr
+                  td style="padding: 13px"
+                    = category.name
+                  td style="padding: 13px"
+                    = link_to edit_category_path(category), style: "margin-right: 5px" do
+                      i.fa.fa-wrench
+                    = link_to category_path(category), method: :delete, data: {confirm: t("messages.you_sure")} do
+                      i.fa.fa-trash
+/ = render "categories/category_modal", object: Category.new, title: t("title.add_category_modal"), submit: t("button.add")
+
+
+= form_for Category.new do |category|
+  = category.label :name
+  = category.text_field :name, class: "form-control", required: true
+  = category.submit class: "btn btn-info"
