@@ -78,12 +78,20 @@ ActiveRecord::Schema.define(version: 20160915072851) do
     t.index ["order_status_id"], name: "index_orders_on_order_status_id", using: :btree
   end
 
+  create_table "product_attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "product_id"
+    t.string   "avatar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.decimal  "price",      precision: 12, scale: 3
+    t.integer  "price"
+    t.text     "description", limit: 65535
     t.boolean  "active"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

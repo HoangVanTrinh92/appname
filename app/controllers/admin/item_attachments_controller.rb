@@ -10,11 +10,7 @@ class Admin::ItemAttachmentsController < ApplicationController
   end
 
   private
-    def set_admin_item_attachment
-      @admin_item_attachment = Admin::ItemAttachment.find(params[:id])
-    end
-
-    def admin_item_attachment_params
-      params.require(:admin_item_attachment).permit(:item_id, :avatar)
-    end
+  def set_admin_item_attachment
+    @admin_item_attachment = Admin::ItemAttachment.find(params[:id])
+  end
 end

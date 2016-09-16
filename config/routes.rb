@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   namespace :admin do
+    resources :products
+    resources :product_attachments, only: [:destroy]
     resources :items
     resources :item_attachments, only: [:destroy]
   end
