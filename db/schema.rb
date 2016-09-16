@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909022755) do
+ActiveRecord::Schema.define(version: 20160915072851) do
 
   create_table "admin_item_attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "item_id"
@@ -41,6 +41,51 @@ ActiveRecord::Schema.define(version: 20160909022755) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.string   "address"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "product_id"
+    t.integer  "order_id"
+    t.decimal  "unit_price",  precision: 12, scale: 3
+    t.integer  "quantity"
+    t.decimal  "total_price", precision: 12, scale: 3
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id", using: :btree
+    t.index ["product_id"], name: "index_order_items_on_product_id", using: :btree
+  end
+
+  create_table "order_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.decimal  "subtotal",        precision: 12, scale: 3
+    t.string   "name"
+    t.string   "phone_number"
+    t.string   "address"
+    t.integer  "order_status_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["order_status_id"], name: "index_orders_on_order_status_id", using: :btree
+  end
+
+  create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.decimal  "price",      precision: 12, scale: 3
+    t.boolean  "active"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -59,4 +104,7 @@ ActiveRecord::Schema.define(version: 20160909022755) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "order_statuses"
 end

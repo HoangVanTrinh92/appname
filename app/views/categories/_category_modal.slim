@@ -1,0 +1,19 @@
+#category_modal.modal.fade role="dialog"
+  .modal-dialog.modal-lg
+    = form_for object, remote: true do |category|
+      .modal-content
+        .modal-header
+          button.close data-dismiss="modal" type="button"  &times;
+          h4.modal-title.with-border
+            = title
+        .modal-body
+          .row
+            .col-md-8
+              form role="form"
+                .form-group
+                  = category.label :name
+                  = category.text_field :name, class: "form-control", required: true
+        .modal-footer
+            = category.submit submit, class: "btn btn-info"
+            button.btn.btn-default data-dismiss="modal" type="button"
+              = t "button.cancel"

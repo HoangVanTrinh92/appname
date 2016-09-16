@@ -1,0 +1,7 @@
+<% if flash[:danger].present? %>
+  $(".alert:visible").remove()
+  $("#error_explanation:visible").remove()
+  alert("<%= flash[:danger] %>");
+<% else %>
+  location.reload();
+<% end %>

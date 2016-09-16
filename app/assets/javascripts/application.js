@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require image_fade
 //= require jquery_nested_form
+//= require_tree .

@@ -1,5 +1,6 @@
 class Admin::ItemsController < ApplicationController
   before_action :set_admin_item, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   def index
     @admin_items = Admin::Item.all

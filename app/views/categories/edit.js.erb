@@ -1,0 +1,4 @@
+$(".modal").remove()
+$("#category-table").append(
+  "<%= j render "categories/category_modal", object: @category, title: t("title.edit_category_modal"), submit: t("button.update") %>")
+$(".modal").modal("show")

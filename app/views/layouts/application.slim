@@ -4,90 +4,117 @@ html
     title
       = t "title.project_name"
     meta content="DdBR0S9NTIUKUNiCoUG4A79CvKm90osEqxGDmo0jiG4" name="google-site-verification"
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "application", :media => "all", 'data-turbolinks-track' => true
     = stylesheet_link_tag    "https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.css"
-    = javascript_include_tag "application"
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
     = javascript_include_tag "jquery.min.js"
     = javascript_include_tag "jquery.easing.min.js"
     = javascript_include_tag "jquery.lavalamp.min.js"
     = javascript_include_tag "image_fade.js"
     = javascript_include_tag "modernizr-1.5.min.js"
     = javascript_include_tag "https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"
+    / if request.ssl?
+    /   = stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+    /   = javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
+    / else
+    /   = stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+    /   = javascript_include_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
+    = stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+    = javascript_include_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
     = csrf_meta_tags
   body
-    title CSS3_split2
-    meta content=("text/html; charset=UTF-8") http-equiv="content-type" /
-    script src="js/modernizr-1.5.min.js" type="text/javascript"
-    - if user_signed_in?
-      = t "hello "
-      span style="color: red"= current_user.email
-      = t " "
-      = link_to "Sign out", destroy_user_session_path, method: :delete
-    - else
-      = link_to "Sign in ", new_user_session_path
-      = link_to "Sign up", new_user_registration_path
-    #main
-      #top_container
-        header
-          #logo
-            h1
-              = link_to "CSS3", root_path
-          nav
-            ul#lava_menu.lavaLampWithImage
-              li.current
-                = link_to "Trang chủ", root_path
-              li
-                a href="examples.html"  examples
-              li
-                a href="page.html"  a page
-              li
-                a href="another_page.html"  another page
-              li
-                a href="contact.php"  contact
-        .slideshow
-          ul.slideshow
-            li.show
-              = image_tag("1.jpg", alt: "cong hoa xa hoi chu nghia viet nam")
-            li
-              = image_tag("2.jpg", alt: "hom nay toi di hoc")
-            li
-              = image_tag("3.jpg", alt: "khong co gi qui hon doc lap tu do")
-        /       / = link_to image_tag("image.png", alt: "Image Description", class: "css"), root_path
+    .container
+      .row
+        .col-xs-6
+          h1= link_to "My Store", root_path
+        .col-xs-6.text-right
+          .cart-text
+            = render 'layouts/cart_text'
+      hr/
+      = yield
 
-      #site_content
-        #content
-          = yield
-        #sidebar_container
-          .sidebar
-            h3 Latest News
-            h4 New Website Launched
-            h5 January 1st, 2014
-            p
-              | Cộng hòa xã hội chủ nghĩa việt nam 2014 sees the redesign of our website. Take a look around and let us know what you think.
-              br/
-              a href="#"  Read more
-          .sidebar
-            h3 Useful Links
-            ul
-              li
-                a href="#"  First Link
-              li
-                a href="#"  Another Link
-              li
-                a href="#"  And Another
-              li
-                a href="#"  Last One
-      footer
-        p
-          a href="index.html"  home
-          | \
-          a href="examples.html"  examples
-          | \
-          a href="page.html"  a page
-          | \
-          a href="another_page.html"  another page
-          | \
-          a href="contact.php"  contact
-          a href="http://fotogrph.com"  Images
-          | \
-          a href="http://www.css3templates.co.uk"  design from css3templates.co.uk
+    / title CSS3_split2
+    / meta content=("text/html; charset=UTF-8") http-equiv="content-type" /
+    / script src="js/modernizr-1.5.min.js" type="text/javascript"
+    / - if user_signed_in?
+    /   = t "hello "
+    /   span style="color: red"= current_user.email
+    /   = t " "
+    /   = link_to "Sign out", destroy_user_session_path, method: :delete
+    / - else
+    /   = link_to "Sign in ", new_user_session_path
+    /   = link_to "Sign up", new_user_registration_path
+    / #main
+    /   #top_container
+    /     header
+    /       #logo
+    /         h1
+    /           = link_to "CSS3", root_path
+    /       nav
+    /         ul#lava_menu.lavaLampWithImage
+    /           li.current
+    /             = link_to "Trang chủ", root_path
+    /           li
+    /             a href="examples.html"  examples
+    /           li
+    /             a href="page.html"  a page
+    /           li
+    /             a href="another_page.html"  another page
+    /           li
+    /             a href="contact.php"  contact
+    /     .slideshow
+    /       ul.slideshow
+    /         li.show
+    /           = image_tag("1.jpg", alt: "cong hoa xa hoi chu nghia viet nam")
+    /         li
+    /           = image_tag("2.jpg", alt: "hom nay toi di hoc")
+    /         li
+    /           = image_tag("3.jpg", alt: "khong co gi qui hon doc lap tu do")
+    /     /       / = link_to image_tag("image.png", alt: "Image Description", class: "css"), root_path
+
+    /   #site_content
+    /     #content
+    /       .container
+    /         .row
+    /           .col-xs-6
+    /             h1= link_to "My Store", root_path
+    /           .col-xs-6
+    /             h1.cart-text= render 'layouts/cart_text'
+    /         hr/
+    /         = yield
+    /     #sidebar_container
+    /       .sidebar
+    /         h3 Latest News
+    /         h4 New Website Launched
+    /         h5 January 1st, 2014
+    /         p
+    /           | Cộng hòa xã hội chủ nghĩa việt nam 2014 sees the redesign of our website. Take a look around and let us know what you think.
+    /           br/
+    /           a href="#"  Read more
+    /       .sidebar
+    /         h3 Useful Links
+    /         ul
+    /           li
+    /             a href="#"  First Link
+    /           li
+    /             a href="#"  Another Link
+    /           li
+    /             a href="#"  And Another
+    /           li
+    /             a href="#"  Last One
+    /   footer
+    /     p
+    /       a href="index.html"  home
+    /       | \
+    /       a href="examples.html"  examples
+    /       | \
+    /       a href="page.html"  a page
+    /       | \
+    /       a href="another_page.html"  another page
+    /       | \
+    /       a href="contact.php"  contact
+    /       a href="http://fotogrph.com"  Images
+    /       | \
+    /       a href="http://www.css3templates.co.uk"  design from css3templates.co.uk
+
+
